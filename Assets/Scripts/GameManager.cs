@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     private float powerupSpawnTime;
     private float enemySpawnTime;
     public int score;
+    private int enemiesToSpawn = 1;
+    private int powerupsToSpawn = 1;
     public bool isGameActive;
     private PlayerController playerController;
 
@@ -36,9 +38,14 @@ public class GameManager : MonoBehaviour
         while (isGameActive)
         {
             yield return new WaitForSeconds(enemySpawnTime);
-            int randomIndex = Random.Range(0, enemies.Length);
-            Vector3 spawnPos = new Vector3(Random.Range(-xSpawnRange, xSpawnRange), ySpawn, zEnemySpawn);
-            Instantiate(enemies[randomIndex], spawnPos, enemies[randomIndex].gameObject.transform.rotation);
+            for(int i = 0; i < enemiesToSpawn; ++i)
+            {
+                int randomIndex = Random.Range(0, enemies.Length);
+                Vector3 spawnPos = new Vector3(Random.Range(-xSpawnRange, xSpawnRange), ySpawn, zEnemySpawn);
+                Instantiate(enemies[randomIndex], spawnPos, enemies[randomIndex].gameObject.transform.rotation);
+            }
+            ++enemiesToSpawn;
+            
         }
     }
 
@@ -48,9 +55,13 @@ public class GameManager : MonoBehaviour
         while (isGameActive)
         {
             yield return new WaitForSeconds(powerupSpawnTime);
-            int randomIndex = Random.Range(0, powerups.Length);
-            Vector3 spawnPos = new Vector3(Random.Range(-xSpawnRange, xSpawnRange), ySpawn, Random.Range(-zPowerupRange, zPowerupRange));
-            Instantiate(powerups[randomIndex], spawnPos, powerups[randomIndex].gameObject.transform.rotation);
+            for( int i = 0; i < powerupsToSpawn; ++i)
+            {
+                int randomIndex = Random.Range(0, powerups.Length);
+                Vector3 spawnPos = new Vector3(Random.Range(-xSpawnRange, xSpawnRange), ySpawn, Random.Range(-zPowerupRange, zPowerupRange));
+                Instantiate(powerups[randomIndex], spawnPos, powerups[randomIndex].gameObject.transform.rotation);
+            }
+            ++powerupsToSpawn;
         }
     }
     
@@ -78,8 +89,6 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             ++score;
             UpdateScore();
-            enemySpawnTime -= 0.1f;
-            powerupSpawnTime -= 0.1f;
         }  
     }
 
@@ -89,7 +98,7 @@ public class GameManager : MonoBehaviour
         titleScreen.SetActive(false);
         isGameActive = true;
         enemySpawnTime = 5.0f;
-        powerupSpawnTime = 15.0f;
+        powerupSpawnTime = 10.0f;
         score = 0;
         playerController.lives = 3;
         StartCoroutine(SpawnEnemy());
