@@ -7,7 +7,7 @@ public class SpawnThreeProjectiles : MonoBehaviour
     public Transform projectileSpawnPoint;
     public GameObject projectilePrefab;
     private readonly float spawnInterval = 6.0f;
-    private readonly float spawnDelay = 0.5f;
+    private readonly float spawnDelay = 1.5f;
     private readonly float xOffset = 1.5f;
     private readonly float rotation = 30.0f;
     private Quaternion rot = Quaternion.Euler(90, 0, 0);
